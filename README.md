@@ -3,7 +3,7 @@
 React application to keep control of your books and readings.
 
 Control your list of books in the categories of _Reading_, _Wants to Read_ and _Read_.
-zpgfsly6
+Search for new books for your lists using the BooksAPI.
 
 ## Set Up
 
