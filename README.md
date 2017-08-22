@@ -1,8 +1,9 @@
-# React My Reads 
+# React My Reads
 
 React application to keep control of your books and readings.
 
-Control your list of books in the categories of _Reading_, _Wants to Read_ and _Read_. 
+Control your list of books in the categories of _Reading_, _Wants to Read_ and _Read_.
+zpgfsly6
 
 ## Set Up
 
