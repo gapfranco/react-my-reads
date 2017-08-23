@@ -10,14 +10,18 @@ class BookSearch extends React.Component {
     books: []
   }
 
+  /**
+   * Reissue query to update state.
+   * @param {string} query - The string to search.
+   */
   updateQuery = (query) => {
     if (query.trim() === '') {
       this.setState({ books: [] });
     } else {
       BooksAPI.search(query.trim(), 20)
-      .then(data => {
-        this.setState({ books: data || [] })
-      });
+        .then(data => {
+          this.setState({ books: data || [] })
+        });
     }
   }
 
@@ -27,8 +31,9 @@ class BookSearch extends React.Component {
         <div className="search-books-bar">
           <Link to="/" className="close-search">Close</Link>
           <div className="search-books-input-wrapper">
-            <Debounce time="250" handler="onChange">
-              <input type="text" 
+            {/* Debounce for .4 second to compensate for too fast typeing */}
+            <Debounce time="400" handler="onChange">
+              <input type="text"
                 placeholder="Search by title or author"
                 onChange={(event) => this.updateQuery(event.target.value)}
               />
