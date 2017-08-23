@@ -1,10 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as BooksAPI from './BooksAPI';
 
 class Book extends React.Component {
 
   state = {
     book: {}
+  }
+
+  static propTypes = {
+    data: PropTypes.object,
+    update: PropTypes.func
   }
 
   constructor(props) {
@@ -14,8 +20,8 @@ class Book extends React.Component {
   }
 
   /**
-   * When shelf select control changes, change book state and trigger update
-   * of parent control if necessary.
+   * When the shelf select control changes, change book state and trigger update
+   * of parent control if necessary (when parent control is a BookList).
    */
   handleChange = (event) => {
     const shelf = event.target.value;

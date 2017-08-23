@@ -11,7 +11,8 @@ class BookList extends React.Component {
 
   /**
    * Update current component state to re-render the list.
-   * Is sent do the subcomponents (books) to change state of the list.
+   * When a book in the main page changes it's shelf, it must call this function to render
+   * the list with the new shelf position.
    */
   updateBook = () => {
     BooksAPI.getAll()
