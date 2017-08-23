@@ -172,3 +172,8 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+.authors-list {
+  padding: 0;
+  margin: 0;  
+}

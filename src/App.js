@@ -14,15 +14,6 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll()
       .then(data => this.setState({myBooks: data || []}));
-    BooksAPI.search('Shakespeare', 20)
-      .then(data => {
-        if (data && data.error) {
-          this.setState({books: []})
-        } else {
-          this.setState({books: data || []})
-        }
-      })
-      .then(data => console.log(this.state));
   }
 
   render() {
