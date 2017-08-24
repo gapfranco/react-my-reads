@@ -11,8 +11,8 @@ class BookSearch extends React.Component {
   }
 
   /**
-   * Reissue query to update state.
-   * @param {string} query - The string to search.
+   * Query books to update state.
+   * @param query - The string to search.
    */
   updateQuery = (query) => {
     if (query.trim() === '') {
@@ -20,8 +20,15 @@ class BookSearch extends React.Component {
     } else {
       BooksAPI.search(query.trim(), 20)
         .then(data => {
-          this.setState({ books: data || [] })
-        });
+          // If query is not one of the permitted search terms, it returns an error.
+          // If it's the case, return an empty array
+          if (data && data.error) {
+            this.setState({books: []})
+          } else {
+            this.setState({books: data || []})          
+          }
+        })
+    
     }
   }
 
