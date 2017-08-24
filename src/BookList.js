@@ -2,17 +2,26 @@ import React from 'react';
 import Book from './Book';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
+import escapeRegExp from 'escape-string-regexp';
 
 class BookList extends React.Component {
 
   state = {
-    books: []
+    books: [],
+    query: ''
+  }
+
+  /**
+   * Update the query field to filter the books
+   */
+  updateQuery = (query) => {
+    this.setState({ query: query.trim() })
   }
 
   /**
    * Update current component state to re-render the list.
-   * When a book in the main page changes it's shelf, it must call this function to render
-   * the list with the new shelf position.
+   * When a book in the main page changes shelf, it must call this function to render
+   * the list with the new position.
    */
   updateBook = () => {
     BooksAPI.getAll()
@@ -30,17 +39,29 @@ class BookList extends React.Component {
   }
 
   render() {
+    const { query, books } = this.state;
+    let showBooks = [];
+    // Prepare to query books on my shelves
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i');
+      showBooks = books.filter((book) => match.test(book.title));
+    } else {
+      showBooks = books;
+    }
     return (
     <div className="list-books">
       <div className="list-books-title">
         <h1>MyReads</h1>
       </div>
-
+      
+      {/* Search for books in my shelves */}
       <div className="search-mybooks-bar">
         <span className="close-mybooks-search"></span>
         <div className="search-mybooks-input-wrapper">
           <input type="text"
             placeholder="Search by title or author"
+            value={query}
+            onChange={(event) => this.updateQuery(event.target.value)}
           />
         </div>
       </div>
@@ -53,7 +74,7 @@ class BookList extends React.Component {
             <h2 className="bookshelf-title">Currently Reading</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                {this.state.books.filter(book => book.shelf === 'currentlyReading')
+                {showBooks.filter(book => book.shelf === 'currentlyReading')
                   .map(book => (
                     <li key={book.id}>
                       <Book data={book} update={this.updateBook}/>
@@ -69,7 +90,7 @@ class BookList extends React.Component {
             <h2 className="bookshelf-title">Want to Read</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                {this.state.books.filter(book => book.shelf === 'wantToRead')
+                {showBooks.filter(book => book.shelf === 'wantToRead')
                   .map(book => (
                     <li key={book.id}>
                       <Book data={book} update={this.updateBook}/>
@@ -85,7 +106,7 @@ class BookList extends React.Component {
             <h2 className="bookshelf-title">Read</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                {this.state.books.filter(book => book.shelf === 'read')
+                {showBooks.filter(book => book.shelf === 'read')
                   .map(book => (
                     <li key={book.id}>
                       <Book data={book} update={this.updateBook}/>
